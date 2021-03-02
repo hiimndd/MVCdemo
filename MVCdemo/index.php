@@ -1,3 +1,4 @@
 <?php
-    echo $_GET["url"];
+    require_once "./MVC/bridge.php";
+    $myapp = new App();
 ?>

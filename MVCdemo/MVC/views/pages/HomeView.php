@@ -9,11 +9,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<?php
 
-
-
-?>
 <div class="container">
   <h2>Danh sách sinh viên</h2>
   

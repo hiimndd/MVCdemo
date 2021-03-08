@@ -1,10 +1,10 @@
 <?php
     class App {
         protected $controller = "Home";
-        protected $action = "SayHi";
+        protected $action = "display";
         protected $params = [];
         function __construct(){
-            $arr = $this->UrlProcess();
+            $arr = $this->UrlProcess(); 
             // xu ly controller
             if(file_exists("./MVC/controllers/".$arr[0].".php")){
                 $this->controller = $arr[0];
@@ -29,6 +29,7 @@
         }
         function UrlProcess(){
             if(isset ($_GET["url"])){
+                //trả về mãng sau khi cắt dấu /
                 return explode("/", filter_var(trim($_GET["url"], "/")));
             }
         }

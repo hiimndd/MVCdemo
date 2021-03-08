@@ -1,117 +1,92 @@
 <?php
-class SinhvienModel{
-    private $servername = "localhost";
-    private $username = "root";
-    private $password = "";
-    private $db = "sinhvien";
-    private $conn;
-    
-    public function __construct(){
-        try{
-            $this->conn = new mysqli($this->servername,$this->username,$this->password,$this->db);
-        }catch(Exception $e){
-            echo "connect failed : ".$e->getMessage();
-        }
-    }
-    public function insert(){
-
-            if(isset($_POST["btn_insert"])){
-                      
-                $hoten = $_POST["hoten"];
-                $mssv = $_POST["mssv"];
-                $ngaysinh = $_POST["ngaysinh"];
-                //check mssv
-                $data = null;
-                $query = "SELECT * FROM `thongtin`";
-                if($sql = $this->conn->query($query)){
-                    while ($row = mysqli_fetch_assoc($sql)) {
-                        $data[] = $row;
-                    }
-                }
-                foreach($data as $row){
-                    if($row["mssv"] === $mssv){
-                    echo "Trùng mã sinh viên";
-                    return 0;
-                    }      
-                }
-                //done check
-                $query = "INSERT INTO `thongtin`( `hoten`, `mssv`, `ngaysinh`) VALUES ('$hoten','$mssv','$ngaysinh') ";
-                if($sql = $this->conn->query($query)){
-                    echo "<script>alert('records added successfully');</script>";
-                    header("Location: index.php");
-                }else{
-                    echo "<script>alert('failed!');</script>"; 
+    include_once 'ConnectdbModel.php';
+    Class SinhVienModel extends connectdbModel{
+        private $list_SinhVien = null;
+        public function getListSinhVien($query){
+            $sql = $this->conn->prepare($query);
+            $sql->execute();
+            if($sql->rowCount()>0)
+            {
+                while ($row=$sql->fetch(PDO::FETCH_ASSOC)) {
+                    $this->list_SinhVien[] = $row;
                 }
             }
-    }
-    public function display(){
-        $data = null;
-        $query = "SELECT * FROM `thongtin`";
-        if($sql = $this->conn->query($query)){
-            while ($row = mysqli_fetch_assoc($sql)) {
-                $data[] = $row;
-            }
+            return $this->list_SinhVien;
         }
-        return $data;
-    }
-    public function uploadUD($id){
-        
-        $data = null;
-        $query = "SELECT * FROM thongtin Where ID = '$id'";
-        if($sql = $this->conn->query($query)){
-            while ($row = $sql->fetch_assoc()) {
-                $data = $row;
-            }
+        public function load_ds_SinhVien($filetype = 'text'){
+            
         }
-        return $data;
+        public function save_ds_SinhVien($filetype = 'text'){
         
-    }
-    public function update($id,$magoc)
-    {
-        
-        if(isset($_POST["btn_update"])){
-            if(isset($id)){
-                $hoten = $_POST["hoten"];
-                $mssv = trim($_POST["mssv"]);
-                $ngaysinh = $_POST["ngaysinh"];
-                //check
-                $data = null;
-                $query = "SELECT * FROM `thongtin` where mssv != '$magoc'";
-                if($sql = $this->conn->query($query)){
-                    while ($row = mysqli_fetch_assoc($sql)) {
-                        $data[] = $row;
-                    }
-                }
-                foreach($data as $row){
-                    if($row["mssv"] === $mssv){
-                    echo "Trùng mã sinh viên";
-                    return 0;
-                    }      
-                }
-                //check done
-                $query = " UPDATE `thongtin` SET `hoten`='$hoten',`mssv`='$mssv',`ngaysinh`='$ngaysinh' WHERE ID = '$id' ";
-                if($sql = $this->conn->query($query)){
-                    header("Location: index.php");
-                }else{
-                    echo "<script>alert('failed!');</script>"; 
-                }
-                }else{
-                    echo "Giá trị ID không tồn tại!";
-                }
-
+        }
+        public function add_SinhVien($hoten,$mssv,$ngaysinh){
+            //check mssv
+            $querycheck = "SELECT * FROM `thongtin`";
+            if($this->checkID($querycheck,$mssv)){
+                return 0;
+            }
+                
+            //done check                
+            $query = "INSERT INTO `thongtin`( `hoten`, `mssv`, `ngaysinh`) VALUES ('$hoten','$mssv','$ngaysinh') ";
+            if($sql = $this->conn->prepare($query)){
+                $sql->execute();
+                echo "<script>alert('records added successfully');</script>";
+                header("Location: index.php");
+            }else{
+                echo "<script>alert('failed!');</script>"; 
+            }
+            return 1;
             
         }
         
-    }
-    public function delete($id){
-        
-        $query = "DELETE FROM thongtin WHERE ID = '$id'";
-        if($sql = $this->conn->query($query)){
-            return true;
-        }else{
+
+        public function edit_SinhVien($id,$magoc,$hoten,$mssv,$ngaysinh){
+            if(isset($id)){
+                //check
+                $querycheck = "SELECT * FROM `thongtin` where mssv != '$magoc'";
+                if($this->checkID($querycheck,$mssv)){
+                    echo "Trùng khóa chính";
+                    return 0;
+                }
+                //done
+                $query = " UPDATE `thongtin` SET `hoten`='$hoten',`mssv`='$mssv',`ngaysinh`='$ngaysinh' WHERE ID = '$id' ";
+
+                if($sql = $this->conn->prepare($query)){
+                    $sql->execute();
+                    header("Location: index.php");
+                }else{
+                    echo "<script>alert('failed!');</script>"; 
+                }
+            }else{
+                echo "Giá trị ID không tồn tại!";
+            }
+        }
+        public function remove_SinhVien($id){
+            $query = "DELETE FROM thongtin WHERE ID = '$id'";
+            if($sql = $this->conn->prepare($query)){
+                $sql->execute();
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function checkID($query,$mssv){
+            $data = null ;
+            $sql = $this->conn->prepare($query);
+            $sql->execute();
+            if($sql->rowCount()>0){
+                while ($row=$sql->fetch(PDO::FETCH_ASSOC)) {
+                    $data[] = $row;
+                }
+            }
+            foreach($data as $row){
+                if($row["mssv"] === $mssv){
+                    return true;
+                }      
+            }
+
             return false;
         }
+        
     }
-}
-
 ?>

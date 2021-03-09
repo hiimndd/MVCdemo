@@ -6,6 +6,12 @@
         function __construct(){
             $arr = $this->UrlProcess(); 
             // xu ly controller
+            echo $arr[0];
+            echo $arr[1];
+
+            if(isset($arr[1]) && $arr[1] == $arr[0] ){
+                unset($arr[1]);
+            }
             if(file_exists("./MVC/controllers/".$arr[0].".php")){
                 $this->controller = $arr[0];
                 unset($arr[0]); 
@@ -38,4 +44,6 @@
         
         
     }
+
+    
 ?>

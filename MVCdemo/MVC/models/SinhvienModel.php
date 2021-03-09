@@ -31,7 +31,7 @@
             if($sql = $this->conn->prepare($query)){
                 $sql->execute();
                 echo "<script>alert('records added successfully');</script>";
-                header("Location: index.php");
+                
             }else{
                 echo "<script>alert('failed!');</script>"; 
             }

@@ -58,7 +58,13 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
+        <li class="active"><a href="<?php
+          if($data["page"] == "AddView"){
+            echo "../home";
+          }else{
+            echo "./home";
+          }
+      ?>">Home</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">Projects</a></li>
         <li><a href="#">Contact</a></li>
@@ -73,8 +79,14 @@
 <div class="container-fluid text-center">    
   <div class="row content">
     <div class="col-sm-2 sidenav">
-      <p><a href="./update/display">Link</a></p>
-      <p><a href="./update/move">Link</a></p>
+      <p><a href="<?php
+          if($data["page"] == "AddView"){
+            echo "../update/add";
+          }else{
+            echo "./update/add";
+          }
+      ?>">Link</a></p>
+      <p><a href="update/move">Link</a></p>
       <p><a href="#">Link</a></p>
     </div>
     <div class="col-sm-8 text-left"> 

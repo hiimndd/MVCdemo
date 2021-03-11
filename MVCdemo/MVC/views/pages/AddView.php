@@ -26,7 +26,7 @@ session_start();
     <h2>THÊM SINH VIÊN</h2>
     <a href="./Home/add"><button type="button" class="btn btn-default" name="bttxt">Về Trang Chính</button></a> 
     
-  <form action="./insert" method="POST">
+  <form action="./add" method="POST">
     <div class="form-group">
     
       <label for="hoten">Họ Tên :</label>
@@ -45,8 +45,8 @@ session_start();
     
 
   </form>
-  <?php if(isset($data["message"])){
-          echo $data["message"];
+  <?php if(isset($_SESSION["massage"])){
+          echo $_SESSION["massage"];
           
     } ?>
   <?php

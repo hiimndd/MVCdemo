@@ -4,7 +4,6 @@
         protected $action = "display";
         protected $params = [];
         function __construct(){
-            $arr = null;
             $arr = $this->UrlProcess(); 
             // xu ly controller
             // echo $arr[0];

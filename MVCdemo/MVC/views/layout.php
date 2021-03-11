@@ -59,10 +59,10 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href="<?php
-          if($data["page"] == "AddView"){
-            echo "../home";
-          }else{
-            echo "./home";
+          if($data["page"] == "EditView"){
+            echo "../../home/display";
+          }else {
+            echo "../home/display";
           }
       ?>">Home</a></li>
         <li><a href="#">About</a></li>
@@ -80,14 +80,13 @@
   <div class="row content">
     <div class="col-sm-2 sidenav">
       <p><a href="<?php
-          if($data["page"] == "AddView"){
-            echo "../update/add";
-          }else{
-            echo "./update/add";
+          if($data["page"] == "EditView"){
+            echo "../../insert/display";
+          }else {
+            echo "../insert/display";
           }
-      ?>">Link</a></p>
-      <p><a href="update/move">Link</a></p>
-      <p><a href="#">Link</a></p>
+      ?>">Thêm</a></p>
+      
     </div>
     <div class="col-sm-8 text-left"> 
       <h1>Welcome</h1>
@@ -101,9 +100,9 @@
   </div>
 </div>
 
-<footer class="container-fluid text-center">
+<!-- <footer class="container-fluid text-center">
   <p>Footer Text</p>
-</footer>
+</footer> -->
 
 </body>
 </html>

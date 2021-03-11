@@ -13,11 +13,11 @@
 <div class="container">
   <h2>Danh sách sinh viên</h2>
   
-  <a href="insert.php?type=text"><button type="button" class="btn btn-default" name="bttxt">Thêm Thông tin sinh viên</button></a> 
   
   
   
-  <p>MYSQLI</p>
+  
+  <p>MYSQL PDO</p>
   <table class="table table-striped">
   <thead>
       <tr>
@@ -33,22 +33,34 @@
           
           
           
+          
          
-          if(!empty($data["datasv"])){
-          foreach($data["datasv"] as $row){
+
+            
+          $sv = $data["datasv"];
+          $index = 0;
+          if(!empty($sv)){
+          foreach($sv as $row){
           
           ?>
         <tr>
-        <td><?php  echo $row["hoten"]."<br>"; ?></td>
-        <td><?php  echo $row["mssv"]."<br>"; ?></td>
-        <td><?php  echo $row["ngaysinh"]."<br>"; ?></td>
-        <td><a href = "update.php?id=<?php echo $row["ID"]; ?>"><button type="button" class="btn btn-primary">sửa</button><a> </a><a href = "delete.php?id=<?php echo $row["ID"]; ?>" onclick="return confirm('Bạn có chắc muốn xóa thông tin này trong file json?')"><button type="button" class="btn btn-primary">xóa</button></a></td>
+        <td><?php   echo $sv[$index]->get_hoten()."<br>"; ?></td>
+        <td><?php   echo $sv[$index]->get_mssv()."<br>"; ?></td>
+        <td><?php   echo $sv[$index]->get_ngaysinh()."<br>"; ?></td>
+        <td><a href = "<?php echo "../update/display/".$sv[$index]->get_ID(); ?>"><button type="button" class="btn btn-primary">sửa</button><a> </a><a href = "<?php echo "../delete/display/".$sv[$index]->get_ID(); ?>" onclick="return confirm('Bạn có chắc muốn xóa thông tin này trong file json?')"><button type="button" class="btn btn-primary">xóa</button></a></td>
         
-        <?php } }?>
+        <?php  
+      
+        $index++;
+        } }?>
       </tr>
     </tbody>
   </table>
-  
+  <?php
+      if(isset($data["massage"])){
+        echo $data["massage"];
+      }
+  ?>
 </div>
 
 </body>
